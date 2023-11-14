@@ -7,14 +7,16 @@ public class Prodotto {
 	private String descrizione;
 	private float prezzo;
 	private int iva;
+	private boolean fedelta;
 	
-	public Prodotto(int codice, String nome, String descrizione, float prezzo, int iva) {
+	public Prodotto(int codice, String nome, String descrizione, float prezzo, int iva, boolean fedelta) {
 		
 		setCodice(codice);
         setNome(nome);
         setDescrizione(descrizione);
         setPrezzo(prezzo);
-        setIva(iva);	
+        setIva(iva);
+        setFedelta(fedelta);
 		
 	}
 	
@@ -23,7 +25,15 @@ public class Prodotto {
         
     }
 
-    private void setCodice(int codice) {
+    public boolean isFedelta() {
+    	return fedelta;
+	}
+	
+	public void setFedelta(boolean fedelta) {
+		this.fedelta = fedelta;
+	}
+
+	private void setCodice(int codice) {
  	    this.codice = codice;
     }
     
@@ -73,6 +83,30 @@ public class Prodotto {
     public String getNomeCompleto( ) {
     	return getCodiceModificato() +"-"+ getNome();
     }
+    
+    
+    public double getPrezzoScontato() {
+
+        if (this instanceof Smartphone) {
+            Smartphone smartphone = (Smartphone) this;
+            if (smartphone.getMemoria() < 32) {
+                return getPrezzoIntero() * 0.95;
+            }
+        } else if (this instanceof Televisori) {
+            Televisori televisore = (Televisori) this;
+            if (!televisore.isSmart()) {
+                return getPrezzoIntero() * 0.93;
+            }
+        } else if (this instanceof Cuffie) {
+            Cuffie cuffie = (Cuffie) this;
+            if (!cuffie.isWirlessCablate()) {
+                return getPrezzoIntero() * 0.90;
+            }
+        }
+
+        return getPrezzo() * 0.98; 
+
+}
 
     @Override
     public String toString() {
@@ -86,7 +120,8 @@ public class Prodotto {
     			+ "---------------------------\n"
     			+ "Nome Completo Prodotto: " + getNomeCompleto() +"\n"
     			+ "Prezzo Finale: " + String.format("%.02f", getPrezzoIntero()) + "€" + "\n"
-    			+"---------------------------------\n";
+    			+"---------------------------------\n"
+    			+ (isFedelta()? ("il prezzo scontato e' di: " + String.format("%.02f", getPrezzoScontato())+ "€"):("")) + "\n";
     }
 	
 }

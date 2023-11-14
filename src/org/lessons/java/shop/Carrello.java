@@ -21,10 +21,16 @@ public class Carrello {
 		String strColore = null;
 		String strWirless = null;
 		
+		boolean fedelta = false;
+
+		Scanner in = new Scanner(System.in);
+		
+        System.out.println("Hai la tessera fedeltà? si/no");
+        fedelta = in.nextLine().equalsIgnoreCase("si");
+		
 		
 		while (true) {
 
-			Scanner in = new Scanner(System.in);
 			
 			System.out.print("Vuoi inserire un nuovo prodotto? ");
 			String strProdotto = in.nextLine();
@@ -92,7 +98,6 @@ public class Carrello {
 					wireOcabla = true;
 				}
 				
-				in.close();
 				
 			}
 			
@@ -100,17 +105,17 @@ public class Carrello {
             switch (strTipo) {
               case "smartphone": {
                   
-                  p[i] = new Smartphone(intCodice, strNome, strDescrizione, intPrezzo, intIva, strCodiceImei, intMemoria);
+                  p[i] = new Smartphone(intCodice, strNome, strDescrizione, intPrezzo, intIva, fedelta, strCodiceImei, intMemoria);
                   i++;
                   break;
               }
               case "televisori": {
-            	  p[i] = new Televisori(intCodice, strNome, strDescrizione, intPrezzo, intIva, intDimensioni, memoria);
+            	  p[i] = new Televisori(intCodice, strNome, strDescrizione, intPrezzo, intIva, fedelta, intDimensioni, memoria);
             	  i++;
             	  break;
               }
               case "cuffie": {
-            	  p[i] = new Cuffie(intCodice, strNome, strDescrizione, intPrezzo, intIva, strColore, wireOcabla);
+            	  p[i] = new Cuffie(intCodice, strNome, strDescrizione, intPrezzo, intIva, fedelta, strColore, wireOcabla);
             	  i++;
             	  break;
               }
@@ -123,10 +128,21 @@ public class Carrello {
     
           }
       
-        for (int j = 0; j <i; j++) {
-              System.out.println(p[j] + "\n");
-          }
-			
+		double prezzoTotale = 0;
+
+        for (int x=0; x < i; x++) {
+            System.out.println(p[x]);
+
+            if(fedelta) {
+            prezzoTotale += p[x].getPrezzoScontato();
+            } else {
+                prezzoTotale += p[x].getPrezzoIntero();
+            }
+
+        }
+
+        System.out.println("Il prezzo totale è: " + String.format("%.2f", prezzoTotale) + "€");
+
 	}
 		
 }

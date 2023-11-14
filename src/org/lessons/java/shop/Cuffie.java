@@ -5,9 +5,9 @@ public class Cuffie extends Prodotto{
 	private String colore;
 	private boolean wOc;
 	
-	public Cuffie(int codice, String nome, String descrizione, float prezzo, int iva, String colore, boolean wOc) {
+	public Cuffie(int codice, String nome, String descrizione, float prezzo, int iva, boolean fedelta,  String colore, boolean wOc) {
 		
-		super(codice, nome, descrizione, prezzo, iva);
+		super(codice, nome, descrizione, prezzo, iva, fedelta);
 		
 		setColore(colore);
 		
@@ -34,6 +34,8 @@ public class Cuffie extends Prodotto{
 	public String wirlessCable() {
 		return isWirlessCablate() ? "Wireless" : "Cablate";
 	}
+
+
 	
 	@Override
 	public String toString() {
